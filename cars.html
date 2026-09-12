@@ -109,12 +109,12 @@
                   <div class="form-group">
                       <label>Tip caroserie:</label>
            
-                       <select class="form-control">
-                            <option value="1">--Toate--</option>
-                            <option value="2">--Sedan--</option>
-                            <option value="3">--Hatchback--</option>
-                            <option value="4">--Break--</option>
-                            <option value="5">--SUV--</option>
+                       <select class="form-control" id="filter-body-type">
+                            <option value="">--Toate--</option>
+                            <option value="Sedan">--Sedan--</option>
+                            <option value="Hatchback">--Hatchback--</option>
+                            <option value="Break">--Break--</option>
+                            <option value="SUV">--SUV--</option>
                        </select>
                   </div>
               </div>
@@ -123,14 +123,8 @@
                   <div class="form-group">
                       <label>Marca:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-make">
+                            <option value="">--Toate--</option>
                        </select>
                   </div>
               </div>
@@ -139,11 +133,8 @@
                   <div class="form-group">
                       <label>Model:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-model">
+                            <option value="">--Toate--</option>
                        </select>
                   </div>
               </div>
@@ -152,11 +143,12 @@
                   <div class="form-group">
                       <label>Preț:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-price">
+                            <option value="">--Toate--</option>
+                            <option value="0-5000">sub 5.000 €</option>
+                            <option value="5000-10000">5.000 - 10.000 €</option>
+                            <option value="10000-20000">10.000 - 20.000 €</option>
+                            <option value="20000-999999">peste 20.000 €</option>
                        </select>
                   </div>
               </div>
@@ -165,11 +157,12 @@
                   <div class="form-group">
                       <label>Kilometraj:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-mileage">
+                            <option value="">--Toate--</option>
+                            <option value="0-50000">sub 50.000 km</option>
+                            <option value="50000-100000">50.000 - 100.000 km</option>
+                            <option value="100000-150000">100.000 - 150.000 km</option>
+                            <option value="150000-999999999">peste 150.000 km</option>
                        </select>
                   </div>
               </div>
@@ -178,11 +171,12 @@
                   <div class="form-group">
                       <label>Capacitate cilindrică:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-engine">
+                            <option value="">--Toate--</option>
+                            <option value="0-1400">sub 1400 cc</option>
+                            <option value="1400-1800">1400 - 1800 cc</option>
+                            <option value="1800-2500">1800 - 2500 cc</option>
+                            <option value="2500-99999">peste 2500 cc</option>
                        </select>
                   </div>
               </div>
@@ -191,11 +185,12 @@
                   <div class="form-group">
                       <label>Putere:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-power">
+                            <option value="">--Toate--</option>
+                            <option value="0-100">sub 100 CP</option>
+                            <option value="100-150">100 - 150 CP</option>
+                            <option value="150-250">150 - 250 CP</option>
+                            <option value="250-9999">peste 250 CP</option>
                        </select>
                   </div>
               </div>
@@ -204,11 +199,12 @@
                   <div class="form-group">
                       <label>Combustibil:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-fuel">
+                            <option value="">--Toate--</option>
+                            <option value="Benzină">Benzină</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Hibrid">Hibrid</option>
+                            <option value="Electric">Electric</option>
                        </select>
                   </div>
               </div>
@@ -217,11 +213,10 @@
                   <div class="form-group">
                       <label>Cutie de viteze:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-transmission">
+                            <option value="">--Toate--</option>
+                            <option value="Manuală">Manuală</option>
+                            <option value="Automată">Automată</option>
                        </select>
                   </div>
               </div>
@@ -230,11 +225,12 @@
                   <div class="form-group">
                       <label>Număr uși:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-doors">
+                            <option value="">--Toate--</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                        </select>
                   </div>
               </div>
@@ -243,11 +239,12 @@
                   <div class="form-group">
                       <label>Număr scaune:</label>
            
-                       <select class="form-control">
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
-                            <option value="">-- All --</option>
+                       <select class="form-control" id="filter-seats">
+                            <option value="">--Toate--</option>
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="7">7</option>
                        </select>
                   </div>
               </div>
@@ -255,150 +252,16 @@
           
           <div class="col-sm-4 offset-sm-4">
             <div class="main-button text-center">
-                <a href="#" class="filled-button">Caută</a>
+                <a href="#" id="search-btn" class="filled-button">Caută</a>
             </div>
           </div>
           <br>
           <br>
         </form>
 
-        <div class="row">
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/product-1-720x480.jpg" alt="">
-              <div class="down-content">
-                <h4>Lorem ipsum dolor sit amet</h4>
-                <div style="margin-bottom:10px;">
-                  <span>
-                      <del><sup>$</sup>11999 </del> &nbsp; <sup>$</sup>11779
-                  </span>
-                </div>
-
-                <p>
-                  <i class="fa fa-dashboard"></i> 130 000km &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cube"></i> 1800 cc &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cog"></i> Manual &nbsp;&nbsp;&nbsp;
-                </p>
-                <a href="car-details.html" class="filled-button">View More</a>
-              </div>
-            </div>
-
-            <br>
-          </div>
-
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/product-2-720x480.jpg" alt="">
-              <div class="down-content">
-                <h4>Lorem ipsum dolor sit amet</h4>
-                <div style="margin-bottom:10px;">
-                  <span>
-                      <del><sup>$</sup>11999 </del> &nbsp; <sup>$</sup>11779
-                  </span>
-                </div>
-
-                <p>
-                  <i class="fa fa-dashboard"></i> 130 000km &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cube"></i> 1800 cc &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cog"></i> Manual &nbsp;&nbsp;&nbsp;
-                </p>
-                <a href="car-details.html" class="filled-button">View More</a>
-              </div>
-            </div>
-
-            <br>
-          </div>
-
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/product-3-720x480.jpg" alt="">
-              <div class="down-content">
-                <h4>Lorem ipsum dolor sit amet</h4>
-                <div style="margin-bottom:10px;">
-                  <span>
-                      <del><sup>$</sup>11999 </del> &nbsp; <sup>$</sup>11779
-                  </span>
-                </div>
-
-                <p>
-                  <i class="fa fa-dashboard"></i> 130 000km &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cube"></i> 1800 cc &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cog"></i> Manual &nbsp;&nbsp;&nbsp;
-                </p>
-                <a href="car-details.html" class="filled-button">View More</a>
-              </div>
-            </div>
-
-            <br>
-          </div>
-
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/product-4-720x480.jpg" alt="">
-              <div class="down-content">
-                <h4>Lorem ipsum dolor sit amet</h4>
-                <div style="margin-bottom:10px;">
-                  <span>
-                      <del><sup>$</sup>11999 </del> &nbsp; <sup>$</sup>11779
-                  </span>
-                </div>
-
-                <p>
-                  <i class="fa fa-dashboard"></i> 130 000km &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cube"></i> 1800 cc &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cog"></i> Manual &nbsp;&nbsp;&nbsp;
-                </p>
-                <a href="car-details.html" class="filled-button">View More</a>
-              </div>
-            </div>
-
-            <br>
-          </div>
-
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/product-5-720x480.jpg" alt="">
-              <div class="down-content">
-                <h4>Lorem ipsum dolor sit amet</h4>
-                <div style="margin-bottom:10px;">
-                  <span>
-                      <del><sup>$</sup>11999 </del> &nbsp; <sup>$</sup>11779
-                  </span>
-                </div>
-
-                <p>
-                  <i class="fa fa-dashboard"></i> 130 000km &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cube"></i> 1800 cc &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cog"></i> Manual &nbsp;&nbsp;&nbsp;
-                </p>
-                <a href="car-details.html" class="filled-button">View More</a>
-              </div>
-            </div>
-
-            <br>
-          </div>
-
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/product-6-720x480.jpg" alt="">
-              <div class="down-content">
-                <h4>Lorem ipsum dolor sit amet</h4>
-                <div style="margin-bottom:10px;">
-                  <span>
-                      <del><sup>$</sup>11999 </del> &nbsp; <sup>$</sup>11779
-                  </span>
-                </div>
-
-                <p>
-                  <i class="fa fa-dashboard"></i> 130 000km &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cube"></i> 1800 cc &nbsp;&nbsp;&nbsp;
-                  <i class="fa fa-cog"></i> Manual &nbsp;&nbsp;&nbsp;
-                </p>
-                <a href="car-details.html" class="filled-button">View More</a>
-              </div>
-            </div>
-
-            <br>
+        <div class="row" id="car-grid">
+          <div class="col-md-12 text-center" id="car-grid-status">
+            <p>Se încarcă mașinile...</p>
           </div>
         </div>
 
@@ -521,16 +384,10 @@
     <script src="assets/js/slick.js"></script>
     <script src="assets/js/accordions.js"></script>
 
-    <script language = "text/Javascript"> 
-      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-      function clearField(t){                   //declaring the array outside of the
-      if(! cleared[t.id]){                      // function makes it static and global
-          cleared[t.id] = 1;  // you could use true and false, but that's more typing
-          t.value='';         // with more chance of typos
-          t.style.color='#fff';
-          }
-      }
-    </script>
+    <!-- Supabase (car data) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/cars-list.js"></script>
 
   </body>
 </html>

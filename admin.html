@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Car Life Auto Carei | Administrare Mașini</title>
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+      /* Small admin-only styles, kept separate from the public site's stylesheet */
+      #admin-wrapper { max-width: 960px; margin: 60px auto; padding: 0 15px; }
+      .admin-card { background: #fff; border: 1px solid #eee; border-radius: 6px; padding: 30px; margin-bottom: 30px; }
+      .admin-card h2 { margin-bottom: 20px; }
+      #car-form .form-group { margin-bottom: 15px; }
+      #login-error, #car-form-msg { margin-top: 10px; font-weight: 600; }
+      table th, table td { vertical-align: middle !important; }
+    </style>
+  </head>
+
+  <body>
+
+    <div id="admin-wrapper">
+
+      <h1 class="text-center" style="margin-bottom: 40px;">Car Life Auto <em>CAREI</em> — Administrare</h1>
+
+      <!-- LOGIN -->
+      <div id="login-section" class="admin-card" style="max-width: 400px; margin: 0 auto;">
+        <h2>Autentificare</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" id="login-email" required>
+          </div>
+          <div class="form-group">
+            <label>Parolă</label>
+            <input type="password" class="form-control" id="login-password" required>
+          </div>
+          <button type="submit" class="filled-button">Conectare</button>
+          <div id="login-error" style="color: #c0392b;"></div>
+        </form>
+      </div>
+
+      <!-- DASHBOARD (hidden until logged in) -->
+      <div id="dashboard-section" style="display: none;">
+
+        <div class="text-right" style="margin-bottom: 20px;">
+          <button id="logout-btn" class="btn btn-outline-secondary">Deconectare</button>
+        </div>
+
+        <div class="admin-card">
+          <h2>Adaugă mașină</h2>
+          <form id="car-form">
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <label>Marca *</label>
+                <input type="text" class="form-control" id="car-make" required>
+              </div>
+              <div class="col-md-6 form-group">
+                <label>Model *</label>
+                <input type="text" class="form-control" id="car-model" required>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label>Tip caroserie</label>
+                <select class="form-control" id="car-body-type">
+                  <option value="">-- alege --</option>
+                  <option value="Sedan">Sedan</option>
+                  <option value="Hatchback">Hatchback</option>
+                  <option value="Break">Break</option>
+                  <option value="SUV">SUV</option>
+                </select>
+              </div>
+              <div class="col-md-4 form-group">
+                <label>An fabricație</label>
+                <input type="number" class="form-control" id="car-year">
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Kilometraj (km)</label>
+                <input type="number" class="form-control" id="car-mileage">
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label>Preț (€) *</label>
+                <input type="number" class="form-control" id="car-price" required>
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Preț vechi (€, opțional)</label>
+                <input type="number" class="form-control" id="car-old-price">
+                <small class="form-text text-muted">Completați doar dacă vreți să afișați o reducere.</small>
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Putere (CP)</label>
+                <input type="number" class="form-control" id="car-power">
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label>Capacitate cilindrică (cc)</label>
+                <input type="number" class="form-control" id="car-engine">
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Combustibil</label>
+                <select class="form-control" id="car-fuel">
+                  <option value="">-- alege --</option>
+                  <option value="Benzină">Benzină</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="Hibrid">Hibrid</option>
+                  <option value="Electric">Electric</option>
+                </select>
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Cutie de viteze</label>
+                <select class="form-control" id="car-transmission">
+                  <option value="">-- alege --</option>
+                  <option value="Manuală">Manuală</option>
+                  <option value="Automată">Automată</option>
+                </select>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label>Număr uși</label>
+                <input type="number" class="form-control" id="car-doors">
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Număr scaune</label>
+                <input type="number" class="form-control" id="car-seats">
+              </div>
+              <div class="col-md-4 form-group">
+                <label>Fotografie</label>
+                <input type="file" class="form-control-file" id="car-image" accept="image/*">
+              </div>
+
+              <div class="col-md-12 form-group">
+                <label>Descriere</label>
+                <textarea class="form-control" id="car-description" rows="3"></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="filled-button">Salvează mașina</button>
+            <div id="car-form-msg"></div>
+          </form>
+        </div>
+
+        <div class="admin-card">
+          <h2>Mașini existente</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Mașină</th>
+                <th>An</th>
+                <th>Preț</th>
+                <th>Kilometraj</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cars-table-body">
+              <tr><td colspan="5">Se încarcă...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/admin.js"></script>
+
+  </body>
+</html>
