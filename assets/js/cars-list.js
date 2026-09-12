@@ -26,7 +26,7 @@ function carCardHTML(car) {
     ? `<del><sup></sup>${formatPrice(car.old_price)}</del> &nbsp; ${formatPrice(car.price)}`
     : formatPrice(car.price);
 
-  const image = car.image_url || 'assets/images/product-1-720x480.jpg';
+  const image = (car.images && car.images[0]) || car.image_url || 'assets/images/product-1-720x480.jpg';
   const title = [car.make, car.model, car.year].filter(Boolean).join(' ');
 
   return `

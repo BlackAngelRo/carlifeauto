@@ -1,5 +1,6 @@
 // ============================================================
-// Admin page logic: auth gate + add/delete cars
+// Admin page logic: auth gate + add/edit/delete cars with
+// multiple photos
 // ============================================================
 
 const loginSection = document.getElementById('login-section');
@@ -7,9 +8,21 @@ const dashboardSection = document.getElementById('dashboard-section');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
 const logoutBtn = document.getElementById('logout-btn');
+
 const carForm = document.getElementById('car-form');
 const carFormMsg = document.getElementById('car-form-msg');
+const carFormHeading = document.getElementById('car-form-heading');
+const carFormSubmitBtn = document.getElementById('car-form-submit-btn');
+const carFormCancelBtn = document.getElementById('car-form-cancel-btn');
+const carEditingIdInput = document.getElementById('car-editing-id');
+const existingImagesPreview = document.getElementById('existing-images-preview');
 const carsTableBody = document.getElementById('cars-table-body');
+
+// URLs of images already saved for the car currently being edited.
+// New uploads get appended to this list on save. Removing a thumbnail
+// just takes it out of this array (the file itself is left in storage).
+let existingImages = [];
+let allCarsCache = [];
 
 function showLogin() {
   loginSection.style.display = 'block';
@@ -51,8 +64,9 @@ logoutBtn.addEventListener('click', async () => {
   showLogin();
 });
 
+// -------------------- image handling --------------------
+
 async function uploadImage(file) {
-  if (!file) return null;
   const fileExt = file.name.split('.').pop();
   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
 
@@ -63,19 +77,86 @@ async function uploadImage(file) {
   return data.publicUrl;
 }
 
+function renderExistingImagesPreview() {
+  existingImagesPreview.innerHTML = existingImages.map((url, index) => `
+    <div class="thumb-preview">
+      <img src="${url}" alt="">
+      <button type="button" class="remove-thumb" data-index="${index}" title="Elimină poza">×</button>
+    </div>
+  `).join('');
+
+  existingImagesPreview.querySelectorAll('.remove-thumb').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.index);
+      existingImages.splice(idx, 1);
+      renderExistingImagesPreview();
+    });
+  });
+}
+
+// -------------------- add / edit form --------------------
+
 function numOrNull(id) {
   const val = document.getElementById(id).value;
   return val === '' ? null : Number(val);
 }
 
+function resetFormToAddMode() {
+  carForm.reset();
+  carEditingIdInput.value = '';
+  existingImages = [];
+  renderExistingImagesPreview();
+  carFormHeading.textContent = 'Adaugă mașină';
+  carFormSubmitBtn.textContent = 'Salvează mașina';
+  carFormCancelBtn.style.display = 'none';
+  carFormMsg.textContent = '';
+}
+
+function startEditingCar(car) {
+  carEditingIdInput.value = car.id;
+  document.getElementById('car-make').value = car.make || '';
+  document.getElementById('car-model').value = car.model || '';
+  document.getElementById('car-body-type').value = car.body_type || '';
+  document.getElementById('car-year').value = car.year ?? '';
+  document.getElementById('car-mileage').value = car.mileage ?? '';
+  document.getElementById('car-price').value = car.price ?? '';
+  document.getElementById('car-old-price').value = car.old_price ?? '';
+  document.getElementById('car-power').value = car.power_hp ?? '';
+  document.getElementById('car-engine').value = car.engine_cc ?? '';
+  document.getElementById('car-fuel').value = car.fuel_type || '';
+  document.getElementById('car-transmission').value = car.transmission || '';
+  document.getElementById('car-doors').value = car.doors ?? '';
+  document.getElementById('car-seats').value = car.seats ?? '';
+  document.getElementById('car-color').value = car.color || '';
+  document.getElementById('car-description').value = car.description || '';
+  document.getElementById('car-images-input').value = '';
+
+  existingImages = (car.images && car.images.length) ? [...car.images] : (car.image_url ? [car.image_url] : []);
+  renderExistingImagesPreview();
+
+  carFormHeading.textContent = `Editează: ${car.make} ${car.model}`;
+  carFormSubmitBtn.textContent = 'Actualizează mașina';
+  carFormCancelBtn.style.display = 'inline-block';
+  carFormMsg.textContent = '';
+
+  document.getElementById('car-form-heading').scrollIntoView({ behavior: 'smooth' });
+}
+
+carFormCancelBtn.addEventListener('click', resetFormToAddMode);
+
 carForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  carFormMsg.textContent = 'Se salvează...';
   carFormMsg.style.color = '#333';
+  carFormMsg.textContent = 'Se salvează...';
 
   try {
-    const imageFile = document.getElementById('car-image').files[0];
-    const imageUrl = await uploadImage(imageFile);
+    const newFiles = Array.from(document.getElementById('car-images-input').files);
+    const uploadedUrls = [];
+    for (const file of newFiles) {
+      uploadedUrls.push(await uploadImage(file));
+    }
+
+    const finalImages = [...existingImages, ...uploadedUrls];
 
     const payload = {
       make: document.getElementById('car-make').value,
@@ -91,16 +172,25 @@ carForm.addEventListener('submit', async (e) => {
       transmission: document.getElementById('car-transmission').value || null,
       doors: numOrNull('car-doors'),
       seats: numOrNull('car-seats'),
+      color: document.getElementById('car-color').value || null,
       description: document.getElementById('car-description').value || null,
-      image_url: imageUrl,
+      images: finalImages,
+      image_url: finalImages[0] || null, // kept in sync for backward compatibility
     };
 
-    const { error } = await supabaseClient.from('cars').insert(payload);
+    const editingId = carEditingIdInput.value;
+
+    let error;
+    if (editingId) {
+      ({ error } = await supabaseClient.from('cars').update(payload).eq('id', editingId));
+    } else {
+      ({ error } = await supabaseClient.from('cars').insert(payload));
+    }
     if (error) throw error;
 
     carFormMsg.style.color = '#2e7d32';
-    carFormMsg.textContent = 'Mașină adăugată cu succes.';
-    carForm.reset();
+    carFormMsg.textContent = editingId ? 'Mașină actualizată cu succes.' : 'Mașină adăugată cu succes.';
+    resetFormToAddMode();
     loadCars();
   } catch (err) {
     console.error(err);
@@ -109,6 +199,8 @@ carForm.addEventListener('submit', async (e) => {
   }
 });
 
+// -------------------- existing cars table --------------------
+
 async function loadCars() {
   const { data, error } = await supabaseClient
     .from('cars')
@@ -116,24 +208,40 @@ async function loadCars() {
     .order('created_at', { ascending: false });
 
   if (error) {
-    carsTableBody.innerHTML = `<tr><td colspan="5">Eroare la încărcare: ${error.message}</td></tr>`;
+    carsTableBody.innerHTML = `<tr><td colspan="6">Eroare la încărcare: ${error.message}</td></tr>`;
     return;
   }
 
-  if (!data.length) {
-    carsTableBody.innerHTML = '<tr><td colspan="5">Nu există mașini adăugate încă.</td></tr>';
+  allCarsCache = data || [];
+
+  if (!allCarsCache.length) {
+    carsTableBody.innerHTML = '<tr><td colspan="6">Nu există mașini adăugate încă.</td></tr>';
     return;
   }
 
-  carsTableBody.innerHTML = data.map(car => `
+  carsTableBody.innerHTML = allCarsCache.map(car => {
+    const thumb = (car.images && car.images[0]) || car.image_url || '';
+    return `
     <tr>
+      <td>${thumb ? `<img src="${thumb}" class="table-thumb" alt="">` : '-'}</td>
       <td>${car.make || ''} ${car.model || ''}</td>
       <td>${car.year || '-'}</td>
       <td>${car.price != null ? car.price + ' €' : '-'}</td>
       <td>${car.mileage != null ? car.mileage + ' km' : '-'}</td>
-      <td><button class="btn btn-sm btn-danger" data-id="${car.id}">Șterge</button></td>
+      <td>
+        <button class="btn btn-sm btn-outline-secondary" data-edit-id="${car.id}">Editează</button>
+        <button class="btn btn-sm btn-danger" data-id="${car.id}">Șterge</button>
+      </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
+
+  carsTableBody.querySelectorAll('button[data-edit-id]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const car = allCarsCache.find(c => c.id === btn.dataset.editId);
+      if (car) startEditingCar(car);
+    });
+  });
 
   carsTableBody.querySelectorAll('button[data-id]').forEach(btn => {
     btn.addEventListener('click', async () => {
@@ -142,6 +250,9 @@ async function loadCars() {
       if (error) {
         alert('Eroare la ștergere: ' + error.message);
         return;
+      }
+      if (carEditingIdInput.value === btn.dataset.id) {
+        resetFormToAddMode();
       }
       loadCars();
     });

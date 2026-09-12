@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-    <title>PHPJabbers.com | Free Car Dealer Website Template</title>
+    <title>Car Life Auto Carei | Detalii Mașină</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -38,8 +38,8 @@
         <div class="row">
           <div class="col-md-8 col-xs-12">
             <ul class="left-info">
-              <li><a href="#"><i class="fa fa-envelope"></i>contact@company.com</a></li>
-              <li><a href="#"><i class="fa fa-phone"></i>123-456-7890</a></li>
+              <li><a href="#"><i class="fa fa-envelope"></i>contact@carlifeautocarei.ro</a></li>
+              <li><a href="#"><i class="fa fa-phone"></i>0757 920 447</a></li>
             </ul>
           </div>
           <div class="col-md-4">
@@ -56,34 +56,30 @@
     <header class="">
       <nav class="navbar navbar-expand-lg">
         <div class="container">
-          <a class="navbar-brand" href="index.html"><h2>Car Dealer<em> Website</em></h2></a>
+          <a class="navbar-brand" href="index.html"><h2>Car Life Auto<em> CAREI</em></h2></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                <a class="nav-link" href="index.html">Home
-                  <span class="sr-only">(current)</span>
-                </a>
+                <a class="nav-link" href="index.html">Acasă</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="cars.html">Cars</a>
+                <a class="nav-link" href="cars.html">Mașini</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">About</a>
+                <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Despre</a>
               
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="about.html">About Us</a>
-                    <a class="dropdown-item" href="blog.html">Blog</a>
-                    <a class="dropdown-item" href="team.html">Team</a>
-                    <a class="dropdown-item" href="testimonials.html">Testimonials</a>
-                    <a class="dropdown-item" href="faq.html">FAQ</a>
-                    <a class="dropdown-item" href="terms.html">Terms</a>
+                    <a class="dropdown-item" href="about.html">Despre Noi</a>
+                    <a class="dropdown-item" href="testimonials.html">Recenzii</a>
+                    <a class="dropdown-item" href="faq.html">Întrebări Frecvente</a>
+                    <a class="dropdown-item" href="terms.html">Termeni și Condiții</a>
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact Us</a>
+                <a class="nav-link" href="contact.html">Contactați-ne</a>
               </li>
             </ul>
           </div>
@@ -96,10 +92,8 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <h1><small><del><sup>$</sup>11999 </del></small> &nbsp; <sup>$</sup>11779</h1>
-            <span>
-                Lorem ipsum dolor sit amet.
-            </span>
+            <h1 id="detail-price">Se încarcă...</h1>
+            <span id="detail-subtitle"></span>
           </div>
         </div>
       </div>
@@ -110,155 +104,103 @@
         <div class="row">
           <div class="col-md-7">
             <div>
-              <img src="assets/images/product-1-720x480.jpg" alt="" class="img-fluid wc-image">
+              <img src="assets/images/product-1-720x480.jpg" alt="" class="img-fluid wc-image" id="detail-hero-image">
             </div>
 
             <br>
 
-            <div class="row">
-              <div class="col-sm-4 col-6">
-                <div>
-                  <img src="assets/images/product-1-720x480.jpg" alt="" class="img-fluid">
-                </div>
-                <br>
-              </div>
-              <div class="col-sm-4 col-6">
-                <div>
-                  <img src="assets/images/product-2-720x480.jpg" alt="" class="img-fluid">
-                </div>
-                <br>
-              </div>
-              <div class="col-sm-4 col-6">
-                <div>
-                  <img src="assets/images/product-3-720x480.jpg" alt="" class="img-fluid">
-                </div>
-                <br>
-              </div>
-
-              <div class="col-sm-4 col-6">
-                <div>
-                  <img src="assets/images/product-4-720x480.jpg" alt="" class="img-fluid">
-                </div>
-                <br>
-              </div>
-              <div class="col-sm-4 col-6">
-                <div>
-                  <img src="assets/images/product-5-720x480.jpg" alt="" class="img-fluid">
-                </div>
-                <br>
-              </div>
-              <div class="col-sm-4 col-6">
-                <div>
-                  <img src="assets/images/product-6-720x480.jpg" alt="" class="img-fluid">
-                </div>
-                <br>
-              </div>
+            <div class="row" id="detail-thumbnails">
             </div>
 
             <br>
           </div>
 
           <div class="col-md-5">
-            <form action="#" method="post" class="form">
-              <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush">
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Type</span>
-
-                         <strong class="pull-right">Used vehicle</strong>
+                         <span class="pull-left">Marca</span>
+                         <strong class="pull-right" id="detail-make"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Make</span>
-
-                         <strong class="pull-right">Lorem ipsum dolor sit</strong>
+                         <span class="pull-left">Model</span>
+                         <strong class="pull-right" id="detail-model"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left"> Model</span>
-
-                         <strong class="pull-right">Lorem ipsum dolor sit</strong>
+                         <span class="pull-left">Tip caroserie</span>
+                         <strong class="pull-right" id="detail-body-type"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">First registration</span>
-
-                         <strong class="pull-right">05/2010</strong>
+                         <span class="pull-left">An fabricație</span>
+                         <strong class="pull-right" id="detail-year"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Mileage</span>
-
-                         <strong class="pull-right">5000 km</strong>
+                         <span class="pull-left">Kilometraj</span>
+                         <strong class="pull-right" id="detail-mileage"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Fuel</span>
-
-                         <strong class="pull-right">Diesel</strong>
+                         <span class="pull-left">Combustibil</span>
+                         <strong class="pull-right" id="detail-fuel"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Engine size</span>
-
-                         <strong class="pull-right">1800 cc</strong>
+                         <span class="pull-left">Capacitate cilindrică</span>
+                         <strong class="pull-right" id="detail-engine"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Power</span>
-
-                         <strong class="pull-right">85 hp</strong>
-                    </div>
-               </li>
-
-
-               <li class="list-group-item">
-                    <div class="clearfix">
-                         <span class="pull-left">Gearbox</span>
-
-                         <strong class="pull-right">Manual</strong>
+                         <span class="pull-left">Putere</span>
+                         <strong class="pull-right" id="detail-power"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Number of seats</span>
-
-                         <strong class="pull-right">4</strong>
+                         <span class="pull-left">Cutie de viteze</span>
+                         <strong class="pull-right" id="detail-transmission"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Doors</span>
-
-                         <strong class="pull-right">2/3</strong>
+                         <span class="pull-left">Număr scaune</span>
+                         <strong class="pull-right" id="detail-seats"></strong>
                     </div>
                </li>
 
                <li class="list-group-item">
                     <div class="clearfix">
-                         <span class="pull-left">Color</span>
+                         <span class="pull-left">Număr uși</span>
+                         <strong class="pull-right" id="detail-doors"></strong>
+                    </div>
+               </li>
 
-                         <strong class="pull-right">Black</strong>
+               <li class="list-group-item">
+                    <div class="clearfix">
+                         <span class="pull-left">Culoare</span>
+                         <strong class="pull-right" id="detail-color"></strong>
                     </div>
                </li>
               </ul>
-            </form>
 
             <br>
           </div>
@@ -269,52 +211,33 @@
         <div class="row">
           <div class="col-md-8">
             <div class="tabs-content">
-              <h4>Vehicle Description</h4>
-
-              <p>- Colour coded bumpers<br>- Tinted glass<br>- Immobiliser<br>- Central locking - remote<br>- Passenger airbag<br>- Electric windows<br>- Rear head rests<br>- Radio<br>- CD player<br>- Ideal first car<br>- Warranty<br>- High level brake light<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
+              <h4>Descriere</h4>
+              <p id="detail-description">Se încarcă...</p>
               <br>
             </div>
           </div>
 
           <div class="col-md-4">
-            <div class="tabs-content">
-              <h4>Vehicle Extras</h4>
-
-              <p>- ABS <br>-Leather seats <br>-Power Assisted Steering <br>-Electric heated seats <br>-New HU and AU <br>-Xenon headlights</p>
-            </div>
-
-            <br>
             <br>
 
             <div class="tabs-content">
-              <h4>Contact Details</h4>
+              <h4>Date de contact</h4>
 
               <p>
-                <span>Name</span>
+                <span>Dealer</span>
               
                 <br>
               
-                <strong>John Smith</strong>
+                <strong>Car Life Auto Carei</strong>
               </p>
               
               <p>
-                <span>Phone</span>
+                <span>Telefon</span>
               
                 <br>
                 
                 <strong>
-                  <a href="tel:123-456-789">123-456-789</a>
-                </strong>
-              </p>
-              
-              <p>
-                <span>Mobile phone</span>
-              
-                <br>
-                
-                <strong>
-                  <a href="tel:456789123">456789123</a>
+                  <a href="tel:0757920447">0757 920 447</a>
                 </strong>
               </p>
               
@@ -324,7 +247,7 @@
                 <br>
                 
                 <strong>
-                  <a href="mailto:john@carsales.com">john@carsales.com</a>
+                  <a href="mailto:contact@carlifeautocarei.ro">contact@carlifeautocarei.ro</a>
                 </strong>
               </p>
             </div>
@@ -509,16 +432,10 @@
     <script src="assets/js/slick.js"></script>
     <script src="assets/js/accordions.js"></script>
 
-    <script language = "text/Javascript"> 
-      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-      function clearField(t){                   //declaring the array outside of the
-      if(! cleared[t.id]){                      // function makes it static and global
-          cleared[t.id] = 1;  // you could use true and false, but that's more typing
-          t.value='';         // with more chance of typos
-          t.style.color='#fff';
-          }
-      }
-    </script>
+    <!-- Supabase (car data) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/car-details.js"></script>
 
   </body>
 </html>

@@ -18,6 +18,14 @@
       #car-form .form-group { margin-bottom: 15px; }
       #login-error, #car-form-msg { margin-top: 10px; font-weight: 600; }
       table th, table td { vertical-align: middle !important; }
+      .thumb-preview { position: relative; width: 90px; height: 60px; }
+      .thumb-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
+      .thumb-preview .remove-thumb {
+        position: absolute; top: -8px; right: -8px; width: 20px; height: 20px;
+        border-radius: 50%; background: #c0392b; color: #fff; border: none;
+        font-size: 12px; line-height: 20px; text-align: center; padding: 0; cursor: pointer;
+      }
+      .table-thumb { width: 60px; height: 40px; object-fit: cover; border-radius: 4px; }
     </style>
   </head>
 
@@ -52,7 +60,7 @@
         </div>
 
         <div class="admin-card">
-          <h2>Adaugă mașină</h2>
+          <h2 id="car-form-heading">Adaugă mașină</h2>
           <form id="car-form">
             <div class="row">
               <div class="col-md-6 form-group">
@@ -129,8 +137,15 @@
                 <input type="number" class="form-control" id="car-seats">
               </div>
               <div class="col-md-4 form-group">
-                <label>Fotografie</label>
-                <input type="file" class="form-control-file" id="car-image" accept="image/*">
+                <label>Culoare</label>
+                <input type="text" class="form-control" id="car-color">
+              </div>
+
+              <div class="col-md-12 form-group">
+                <label>Fotografii</label>
+                <div id="existing-images-preview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                <input type="file" class="form-control-file" id="car-images-input" accept="image/*" multiple>
+                <small class="form-text text-muted">Puteți selecta mai multe poze deodată. Prima poză va fi folosită ca imagine principală în listă.</small>
               </div>
 
               <div class="col-md-12 form-group">
@@ -139,7 +154,9 @@
               </div>
             </div>
 
-            <button type="submit" class="filled-button">Salvează mașina</button>
+            <input type="hidden" id="car-editing-id" value="">
+            <button type="submit" class="filled-button" id="car-form-submit-btn">Salvează mașina</button>
+            <button type="button" class="btn btn-outline-secondary" id="car-form-cancel-btn" style="display: none;">Anulează editarea</button>
             <div id="car-form-msg"></div>
           </form>
         </div>
@@ -149,6 +166,7 @@
           <table class="table">
             <thead>
               <tr>
+                <th>Poză</th>
                 <th>Mașină</th>
                 <th>An</th>
                 <th>Preț</th>
@@ -157,7 +175,7 @@
               </tr>
             </thead>
             <tbody id="cars-table-body">
-              <tr><td colspan="5">Se încarcă...</td></tr>
+              <tr><td colspan="6">Se încarcă...</td></tr>
             </tbody>
           </table>
         </div>
