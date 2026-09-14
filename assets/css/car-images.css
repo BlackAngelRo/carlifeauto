@@ -1,0 +1,28 @@
+/* ============================================================
+   Uniform car photo sizing.
+   Applied via object-fit: cover, so photos of any original size
+   or orientation get cropped to fill the same shape consistently
+   -- nothing gets stretched or squashed.
+   ============================================================ */
+
+/* Listing grid (cars.html) */
+.service-item > img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+/* Details page (car-details.html) thumbnail row */
+.detail-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* Details page main/hero photo -- a bit taller since it's the star of the page */
+#detail-hero-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}

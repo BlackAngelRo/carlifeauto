@@ -66,11 +66,48 @@ logoutBtn.addEventListener('click', async () => {
 
 // -------------------- image handling --------------------
 
-async function uploadImage(file) {
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+// Scales an image down (preserving aspect ratio, no cropping -- cropping for
+// display is handled by CSS) so uploads stay small and fast, and re-encodes
+// it as a JPEG. Cropping to a fixed shape happens later, at display time.
+function resizeImageFile(file, maxDimension = 1600, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Nu s-a putut citi imaginea.'));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Nu s-a putut încărca imaginea.'));
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          if (!blob) { reject(new Error('Nu s-a putut procesa imaginea.')); return; }
+          const newName = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+          resolve(new File([blob], newName, { type: 'image/jpeg' }));
+        }, 'image/jpeg', quality);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
-  const { error } = await supabaseClient.storage.from('car-images').upload(fileName, file);
+async function uploadImage(file) {
+  const resized = await resizeImageFile(file);
+  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+
+  const { error } = await supabaseClient.storage.from('car-images').upload(fileName, resized);
   if (error) throw error;
 
   const { data } = supabaseClient.storage.from('car-images').getPublicUrl(fileName);
