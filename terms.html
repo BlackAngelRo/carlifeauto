@@ -250,7 +250,12 @@
           <div class="col-md-3 footer-item last-item">
             <h4>Contactează-ne</h4>
             <div class="contact-form">
-              <form id="contact footer-contact" action="" method="post">
+              <form id="contact footer-contact" action="contact.php" method="post">
+                <input type="hidden" name="pagina" value="terms.html">
+                <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+                      <label for="website">Nu completați acest câmp</label>
+                      <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                    </div>
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <fieldset>
@@ -301,6 +306,7 @@
     <script src="assets/js/owl.js"></script>
     <script src="assets/js/slick.js"></script>
     <script src="assets/js/accordions.js"></script>
+    <script src="assets/js/contact-status.js"></script>
 
     </body>
 </html>
