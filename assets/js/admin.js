@@ -22,6 +22,7 @@ const carsTableBody = document.getElementById('cars-table-body');
 // New uploads get appended to this list on save. Removing a thumbnail
 // just takes it out of this array (the file itself is left in storage).
 let existingImages = [];
+let imagesPendingDeletion = []; // poze scoase din galerie in timpul editarii, de sters din storage doar la salvare
 let allCarsCache = [];
 
 function showLogin() {
@@ -103,6 +104,37 @@ function resizeImageFile(file, maxDimension = 1600, quality = 0.82) {
   });
 }
 
+// Din URL-ul public (ex: https://xxxx.supabase.co/storage/v1/object/public/car-images/12345-abc.jpg)
+// extragem doar numele fișierului, ca să-l putem șterge din storage.
+function extractStorageFilename(url) {
+  if (!url) return null;
+  const marker = '/car-images/';
+  const idx = url.indexOf(marker);
+  if (idx === -1) return null;
+  return url.slice(idx + marker.length);
+}
+
+// Șterge din storage o listă de URL-uri de poze.
+async function deletePhotosByUrl(urls) {
+  const filenames = [...new Set(urls.map(extractStorageFilename).filter(Boolean))];
+  if (!filenames.length) return;
+
+  const { error } = await supabaseClient.storage.from('car-images').remove(filenames);
+  if (error) {
+    // Nu blocăm operația principală (ștergere mașină / salvare editare) dacă
+    // pozele nu s-au putut șterge din storage -- doar semnalăm în consolă.
+    console.error('Nu s-au putut șterge toate pozele din storage:', error);
+  }
+}
+
+// Șterge din storage toate pozele unei mașini (array "images" + eventualul "image_url" vechi)
+async function deleteCarPhotos(car) {
+  await deletePhotosByUrl([
+    ...(car.images || []),
+    ...(car.image_url ? [car.image_url] : []),
+  ]);
+}
+
 async function uploadImage(file) {
   const resized = await resizeImageFile(file);
   const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
@@ -125,7 +157,8 @@ function renderExistingImagesPreview() {
   existingImagesPreview.querySelectorAll('.remove-thumb').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = Number(btn.dataset.index);
-      existingImages.splice(idx, 1);
+      const [removedUrl] = existingImages.splice(idx, 1);
+      if (removedUrl) imagesPendingDeletion.push(removedUrl);
       renderExistingImagesPreview();
     });
   });
@@ -142,6 +175,7 @@ function resetFormToAddMode() {
   carForm.reset();
   carEditingIdInput.value = '';
   existingImages = [];
+  imagesPendingDeletion = [];
   renderExistingImagesPreview();
   carFormHeading.textContent = 'Adaugă mașină';
   carFormSubmitBtn.textContent = 'Salvează mașina';
@@ -169,6 +203,7 @@ function startEditingCar(car) {
   document.getElementById('car-images-input').value = '';
 
   existingImages = (car.images && car.images.length) ? [...car.images] : (car.image_url ? [car.image_url] : []);
+  imagesPendingDeletion = [];
   renderExistingImagesPreview();
 
   carFormHeading.textContent = `Editează: ${car.make} ${car.model}`;
@@ -224,6 +259,10 @@ carForm.addEventListener('submit', async (e) => {
       ({ error } = await supabaseClient.from('cars').insert(payload));
     }
     if (error) throw error;
+
+    if (editingId && imagesPendingDeletion.length) {
+      await deletePhotosByUrl(imagesPendingDeletion);
+    }
 
     carFormMsg.style.color = '#2e7d32';
     carFormMsg.textContent = editingId ? 'Mașină actualizată cu succes.' : 'Mașină adăugată cu succes.';
@@ -282,7 +321,13 @@ async function loadCars() {
 
   carsTableBody.querySelectorAll('button[data-id]').forEach(btn => {
     btn.addEventListener('click', async () => {
-      if (!confirm('Sigur ștergeți această mașină?')) return;
+      if (!confirm('Sigur ștergeți această mașină? Se vor șterge și pozele ei.')) return;
+
+      const car = allCarsCache.find(c => c.id === btn.dataset.id);
+      if (car) {
+        await deleteCarPhotos(car);
+      }
+
       const { error } = await supabaseClient.from('cars').delete().eq('id', btn.dataset.id);
       if (error) {
         alert('Eroare la ștergere: ' + error.message);

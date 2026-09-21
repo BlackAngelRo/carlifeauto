@@ -26,3 +26,7 @@
   aspect-ratio: 16 / 10;
   object-fit: cover;
 }
+
+#detail-description {
+  white-space: pre-line;
+}

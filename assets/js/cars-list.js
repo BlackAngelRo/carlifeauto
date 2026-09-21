@@ -4,6 +4,9 @@
 // ============================================================
 
 let allCars = [];
+let currentFilteredCars = [];
+let currentPage = 1;
+const CARS_PER_PAGE = 9;
 
 function formatNumber(value) {
   return new Intl.NumberFormat('ro-RO').format(value);
@@ -51,13 +54,73 @@ function carCardHTML(car) {
   `;
 }
 
-function renderCars(cars) {
+function renderCars(cars, resetPage = true) {
+  currentFilteredCars = cars;
+  if (resetPage) currentPage = 1;
+
   const grid = document.getElementById('car-grid');
+
   if (!cars.length) {
     grid.innerHTML = '<div class="col-md-12 text-center"><p>Nu am găsit mașini care să corespundă filtrelor selectate.</p></div>';
+    renderPagination(0);
     return;
   }
-  grid.innerHTML = cars.map(carCardHTML).join('');
+
+  const totalPages = Math.max(1, Math.ceil(cars.length / CARS_PER_PAGE));
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage - 1) * CARS_PER_PAGE;
+  const pageCars = cars.slice(start, start + CARS_PER_PAGE);
+
+  grid.innerHTML = pageCars.map(carCardHTML).join('');
+  renderPagination(cars.length);
+}
+
+function goToPage(page) {
+  const totalPages = Math.max(1, Math.ceil(currentFilteredCars.length / CARS_PER_PAGE));
+  if (page < 1 || page > totalPages || page === currentPage) return;
+  currentPage = page;
+  renderCars(currentFilteredCars, false);
+  document.getElementById('car-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderPagination(totalItems) {
+  const container = document.getElementById('pagination-controls');
+  if (!container) return;
+
+  const totalPages = Math.ceil(totalItems / CARS_PER_PAGE);
+  if (totalPages <= 1) {
+    container.innerHTML = '';
+    return;
+  }
+
+  function pageItem(label, page, opts = {}) {
+    const disabled = opts.disabled ? ' disabled' : '';
+    const active = opts.active ? ' active' : '';
+    return `
+      <li class="page-item${disabled}${active}">
+        <a class="page-link" href="#" data-page="${page}"${opts.ariaLabel ? ` aria-label="${opts.ariaLabel}"` : ''}>${label}</a>
+      </li>
+    `;
+  }
+
+  let html = '';
+  html += pageItem('«', currentPage - 1, { disabled: currentPage === 1, ariaLabel: 'Anterior' });
+  for (let p = 1; p <= totalPages; p++) {
+    html += pageItem(p, p, { active: p === currentPage });
+  }
+  html += pageItem('»', currentPage + 1, { disabled: currentPage === totalPages, ariaLabel: 'Următor' });
+
+  container.innerHTML = html;
+
+  container.querySelectorAll('a.page-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const li = link.closest('.page-item');
+      if (li.classList.contains('disabled') || li.classList.contains('active')) return;
+      goToPage(Number(link.dataset.page));
+    });
+  });
 }
 
 function populateMakeFilter(cars) {
